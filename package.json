@@ -1,6 +1,6 @@
 {
   "name": "tox-electron-sample",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Electronized sample application based on AngularJS (frontend) and some more ...",
   "author": "Enrico Hoffmann <dasrick@gmail.com>",
   "license": "MIT",
