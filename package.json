@@ -1,6 +1,6 @@
 {
   "name": "tox-electron-sample",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Electronized sample application based on AngularJS (frontend) and some more ...",
   "author": "Enrico Hoffmann <dasrick@gmail.com>",
   "license": "MIT",
@@ -19,15 +19,12 @@
   },
   "scripts": {
     "start": "node_modules/.bin/electron .",
-
     "clean": "rm -rf ./dist",
     "clean:osx": "rm -rf ./dist/osx",
     "clean:win": "rm -rf ./dist/win",
-
     "build": "npm run clean && npm run build:osx && npm run build:win",
     "build:osx": "npm run clean:osx && electron-packager ./ \"toxApp\" --out=dist/osx --platform=darwin --arch=x64 --version=0.37.2 --icon=assets/osx/icon.icns",
     "build:win": "npm run clean:win && electron-packager ./ \"toxApp\" --out=dist/win --platform=win32 --arch=ia32 --version=0.37.2 --icon=assets/win/icon.ico",
-
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
