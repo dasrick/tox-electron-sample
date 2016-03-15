@@ -1,0 +1,19 @@
+{
+  "name": "tox-electron-sample",
+  "version": "0.0.0",
+  "description": "Electronized sample application based on AngularJS (frontend) and some more ...",
+  "author": "Enrico Hoffmann <dasrick@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "homepage": "https://github.com/dasrick/tox-electron-sample#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dasrick/tox-electron-sample.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dasrick/tox-electron-sample/issues"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
