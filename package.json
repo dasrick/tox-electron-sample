@@ -1,5 +1,6 @@
 {
   "name": "tox-electron-sample",
+  "productName": "toxApp",
   "version": "0.0.3",
   "description": "Electronized sample application based on AngularJS (frontend) and some more ...",
   "author": "Enrico Hoffmann <dasrick@gmail.com>",
@@ -13,9 +14,12 @@
   "bugs": {
     "url": "https://github.com/dasrick/tox-electron-sample/issues"
   },
+  "electronVersion": "0.37.2",
   "devDependencies": {
     "electron-packager": "^5.2.1",
-    "electron-prebuilt": "^0.37.2"
+    "electron-prebuilt": "^0.37.2",
+    "electron-release": "^2.2.0",
+    "publish-release": "^1.2.0"
   },
   "scripts": {
     "start": "node_modules/.bin/electron .",
@@ -23,8 +27,8 @@
     "clean:osx": "rm -rf ./dist/osx",
     "clean:win": "rm -rf ./dist/win",
     "build": "npm run clean && npm run build:osx && npm run build:win",
-    "build:osx": "npm run clean:osx && electron-packager ./ \"toxApp\" --out=dist/osx --platform=darwin --arch=x64 --version=0.37.2 --icon=assets/osx/icon.icns",
-    "build:win": "npm run clean:win && electron-packager ./ \"toxApp\" --out=dist/win --platform=win32 --arch=ia32 --version=0.37.2 --icon=assets/win/icon.ico",
+    "build:osx": "npm run clean:osx && electron-packager ./ $npm_package_productName --out=dist/osx --platform=darwin --arch=x64 --app-version=$npm_package_version --version=$npm_package_electronVersion --icon=assets/osx/icon.icns",
+    "build:win": "npm run clean:win && electron-packager ./ $npm_package_productName --out=dist/win --platform=win32 --arch=ia32 --app-version=$npm_package_version --version=$npm_package_electronVersion --icon=assets/win/icon.ico",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
