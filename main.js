@@ -54,3 +54,9 @@ app.on('ready', function () {
     mainWindow = null;
   });
 });
+
+// OSX only
+console.log('dark mode: ', app.isDarkMode());
+app.on('platform-theme-changed', function () {
+  console.log('dark mode - platform-theme-changed - now: ', app.isDarkMode());
+});
