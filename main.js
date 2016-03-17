@@ -1,5 +1,9 @@
-var app = require('app');  // Module to control application life.
-var BrowserWindow = require('browser-window');  // Module to create native browser window.
+var electron = require('electron');
+var app = electron.app;
+var BrowserWindow = electron.BrowserWindow;
+
+//var app = require('app');  // Module to control application life.
+//var BrowserWindow = require('browser-window');  // Module to create native browser window.
 
 // Report crashes to our server.
 //require('crash-reporter').start();
@@ -21,7 +25,18 @@ app.on('window-all-closed', function () {
 // initialization and is ready to create browser windows.
 app.on('ready', function () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({
+    title: 'Mein Title - deng', // ToDo überschreibt den Titel aus der index.html - vllt. brauht man das noch
+    width: 800,
+    height: 600,
+    resizable: true,
+    center: true,
+    show: true,
+    frame: true,
+    autoHideMenuBar: true,
+    //icon: 'assets/icon.png',
+    titleBarStyle: 'hidden-inset'
+  });
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/app/index.html');
