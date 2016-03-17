@@ -6,9 +6,6 @@ npm-debug.log*
 # Coverage directory used by tools like istanbul
 coverage
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
 # Dependency directory
 node_modules
 
@@ -16,4 +13,6 @@ node_modules
 .npm
 
 # my stuff
+build
 dist
+release

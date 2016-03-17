@@ -1,9 +1,12 @@
+var fs = require('fs');
+var path = require('path');
 var electron = require('electron');
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 
-//var app = require('app');  // Module to control application life.
-//var BrowserWindow = require('browser-window');  // Module to create native browser window.
+//const injectBundle = require('./inject-onload.js');
+
+process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 
 // Report crashes to our server.
 //require('crash-reporter').start();
@@ -39,7 +42,7 @@ app.on('ready', function () {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/app/index.html');
+  mainWindow.loadURL(path.normalize('file://' + path.join(__dirname, 'index.html')));
 
   // Open the DevTools.
   if (process.env.NODE_ENV === 'development') {
@@ -53,10 +56,18 @@ app.on('ready', function () {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  mainWindow.webContents.on('dom-ready', function () {
+    var cssFileName = (app.isDarkMode()) ? 'theme.dark.css' : 'theme.light.css';
+    var cssFile = fs.readFileSync(path.resolve(__dirname, 'css', cssFileName), 'utf8');
+    mainWindow.webContents.insertCSS(cssFile);
+    //mainWindow.webContents.executeJavaScript(`injectBundle.getBadgeJS()`);
+  });
+
 });
 
 // OSX only
-console.log('dark mode: ', app.isDarkMode());
+//console.log('dark mode: ', app.isDarkMode());
 app.on('platform-theme-changed', function () {
-  console.log('dark mode - platform-theme-changed - now: ', app.isDarkMode());
+  mainWindow.reload();
 });
