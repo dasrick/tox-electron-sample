@@ -57,8 +57,11 @@
   },
   "dependencies": {
     "angular": "^1.5.1",
+    "angular-loading-bar": "^0.9.0",
     "angular-resource": "^1.5.1",
     "angular-sanitize": "^1.5.1",
+    "angular-translate": "^2.10.0",
+    "angular-translate-loader-partial": "^2.10.0",
     "angular-ui-router": "^0.2.18",
     "bootstrap": "^3.3.6",
     "font-awesome": "^4.5.0",

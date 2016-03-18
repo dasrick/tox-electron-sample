@@ -4,5 +4,5 @@
  */
 module.exports = require('angular')
   .module('components', [
-    //require('./chat').name
+    require('./core').name
   ]);

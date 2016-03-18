@@ -123,6 +123,24 @@ module.exports = function (grunt) {
             cwd: 'node_modules/npm-font-source-sans-pro/fonts/',
             src: ['**/*'],
             dest: 'build/fonts/source-sans-pro/'
+          },
+          {
+            expand: true,
+            cwd: 'src/js/components/',
+            src: ['**/views/*'],
+            dest: 'build/views/',
+            rename: function(dest, src) {
+              return dest + src.replace('/views/','/');
+            }
+          },
+          {
+            expand: true,
+            cwd: 'src/js/components/',
+            src: ['**/translations/*'],
+            dest: 'build/i18n/',
+            rename: function(dest, src) {
+              return dest + src.replace('/translations/','/');
+            }
           }
         ]
       },
@@ -233,7 +251,6 @@ module.exports = function (grunt) {
     watchChokidar: {
       options: {
         spawn: true
-        //spawn: false
       },
       livereload: {
         options: {livereload: true},
@@ -248,7 +265,7 @@ module.exports = function (grunt) {
         tasks: ['less']
       },
       copy: {
-        files: ['images/*', 'index.html', 'fonts/*'],
+        files: ['images/*', 'index.html', 'fonts/*', 'src/js/**/*.html', 'src/js/**/*.json'],
         tasks: ['newer:copy:dev']
       }
     }
