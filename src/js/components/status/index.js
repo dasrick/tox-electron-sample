@@ -1,11 +1,11 @@
 'use strict';
 
-var ModuleName = 'core',
+var ModuleName = 'status',
   RoutingConfig = require('./config');
 
 module.exports = angular.module(ModuleName, [])
 
-  .controller('CoreController', require('./controller/core-controller'))
+  .controller('StatusController', require('./controller/status-controller'))
 
   // routing
   .config(function ($stateProvider) {

@@ -1,9 +1,49 @@
 <aside class="sidebar">
     <section class="section-body">
-        <ul>
-            <li>axc</li>
-            <li>efg</li>
+        <ul class="list-unstyled level-list">
+            <li>
+                <p>
+                    <span class="title">Überschrift [trans]</span>
+                </p>
+                <ul class="list-unstyled">
+                    <li>
+                        <a ui-sref="app.base.status"
+                           title="{{'status.sidebar.title'|translate}}">
+                            <i class="fa fa-fw {{'status.sidebar.icon'|translate}}"></i>
+                            <span class="title" translate="status.sidebar.label"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a ui-sref="app.base.status"
+                           title="{{'status.sidebar.title'|translate}}">
+                            <i class="fa fa-fw {{'status.sidebar.icon'|translate}}"></i>
+                            <span class="title" translate="status.sidebar.label"></span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p>
+                    <span class="title">Überschrift [trans]</span>
+                </p>
+                <ul class="list-unstyled">
+                    <li>
+                        <a ui-sref="app.base.status"
+                           title="{{'status.sidebar.title'|translate}}">
+                            <i class="fa fa-fw {{'status.sidebar.icon'|translate}}"></i>
+                            <span class="title" translate="status.sidebar.label"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a ui-sref="app.base.status"
+                           title="{{'status.sidebar.title'|translate}}">
+                            <i class="fa fa-fw {{'status.sidebar.icon'|translate}}"></i>
+                            <span class="title" translate="status.sidebar.label"></span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </section>
 </aside>
-<aside class="content" ui-view="content">... und hier kommt der content ...</aside>
+<aside class="content" ui-view="content"></aside>

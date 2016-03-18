@@ -26,7 +26,7 @@ angular.module(appName, requires)
     $urlRouterProvider.otherwise(function ($injector) {
       var $state;
       $state = $injector.get('$state');
-      $state.go('app.base');
+      $state.go('app.base.status');
     });
     //$httpProvider.interceptors.push('ResponseErrorInterceptor');
     $resourceProvider.defaults.stripTrailingSlashes = true;
@@ -37,7 +37,7 @@ angular.module(appName, requires)
   .config(function ($translateProvider) {
     $translateProvider.useSanitizeValueStrategy('escaped');
     $translateProvider.useLoader('$translatePartialLoader', {
-      urlTemplate: '/i18n/{part}/{lang}.json'
+      urlTemplate: 'i18n/{part}/{lang}.json'
     });
     // add translation table
     $translateProvider

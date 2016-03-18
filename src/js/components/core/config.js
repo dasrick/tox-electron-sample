@@ -14,7 +14,7 @@ module.exports = {
   },
   'app.base': {
     url: '/base',
-    //abstract: true,
+    abstract: true,
     views: {
       'header': {
         templateUrl: './views/core/header.html'

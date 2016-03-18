@@ -1,0 +1,8 @@
+{
+  "status.sidebar.icon": "fa-server",
+  "status.sidebar.label": "Status",
+  "status.sidebar.title": "Status",
+
+  "status.common.singular.title": "Status",
+  "status.common.plural.title": "Status"
+}
