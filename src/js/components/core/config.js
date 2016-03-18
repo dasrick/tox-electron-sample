@@ -16,6 +16,9 @@ module.exports = {
     url: '/base',
     //abstract: true,
     views: {
+      'header': {
+        templateUrl: './views/core/header.html'
+      },
       'main': {
         templateUrl: './views/core/sidebar.html'
       },

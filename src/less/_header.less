@@ -1,15 +1,27 @@
 // vars - ToDo vereinheitlichen und auslagern  /////////////////////////////////////////////////////////////////////////
-
+@header-buttons-witdh: 64px;
+@header-padding-rl: 15px;
+@header-padding-top: 8px;
+@header-padding-right: @header-padding-rl;
+@header-padding-left: @header-buttons-witdh + @header-padding-rl;
 
 // layout //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 header {
   top: 0;
   height: @header-height;
 
-  padding-left: 76px;
-  padding-top: 8px;
+  padding-top: @header-padding-top;
+  padding-left: @header-padding-left;
+  padding-right: @header-padding-right;
 
   border-bottom: 1px solid @table-border-color;
+
+  span:nth-child(1) {
+    font-weight: 300;
+  }
+  span:nth-child(2) {
+    font-weight: 600;
+  }
 }
 
 // theme ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
