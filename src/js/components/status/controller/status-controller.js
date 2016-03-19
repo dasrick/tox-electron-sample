@@ -16,8 +16,10 @@ module.exports = function (ipcRenderer) {
       console.log('status-controller - releaseUrl: ', url);
       vm.ipcMsg = 'Url: ' + url;
     })
-    .on('error', function (sender, error) {
+    .on('error', function (sender, error, x) {
+      console.log('status-controller sender: ', sender);
       console.log('status-controller error: ', error);
+      console.log('status-controller x: ', x);
       vm.ipcMsg = 'error';
       vm.hello = error;
     })

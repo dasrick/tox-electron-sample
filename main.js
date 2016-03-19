@@ -4,10 +4,12 @@ var electron = require('electron');
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 var windowStateKeeper = require('electron-window-state');
-var releaseUrl = 'https://tox-electron-sample-nuts.herokuapp.com/latest?version=' + app.getVersion();
 
-// var autoUpdater = require('auto-updater');
-// autoUpdater.setFeedURL('https://tox-electron-sample-nuts.herokuapp.com/latest?version=' + app.getVersion());
+var autoUpdater = require('auto-updater');
+var os = require('os');
+var platform = os.platform() + '_' + os.arch();
+var version = app.getVersion();
+var releaseUrl = 'https://tox-electron-sample-nuts.herokuapp.com/update/' + platform + '/' + version;
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 
@@ -86,8 +88,7 @@ app.on('ready', function () {
 
 
   // === ### =======
-  mainWindow.webContents.on("did-finish-load", function() {
-    var autoUpdater = require('auto-updater');
+  mainWindow.webContents.on('did-finish-load', function () {
     autoUpdater.setFeedURL(releaseUrl);
     console.log('releaseUrl: ' + releaseUrl);
     mainWindow.webContents.send('releaseUrl', releaseUrl);
