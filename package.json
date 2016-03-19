@@ -38,6 +38,8 @@
     "grunt-download-electron": "^2.1.2",
     "grunt-electron": "^2.0.1",
     "grunt-electron-installer": "^2.0.0",
+    "grunt-electron-installer-debian": "^0.2.0",
+    "grunt-electron-installer-windows": "^0.2.0",
     "grunt-newer": "^1.1.2",
     "grunt-rcedit": "^0.4.0",
     "grunt-shell": "^1.2.1",

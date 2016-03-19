@@ -19,14 +19,15 @@ module.exports = function (grunt) {
 //    var match = str.match(/(\d+\.\d+\.\d+)/);
 //    return match ? match[1] : null;
 //  };
-//
-  var BASENAME = 'toxElectronSample';
+
+  var BASENAME = 'tox-electron-sample';
   var OSX_APPNAME = BASENAME + ' (Alpha)';
   var WINDOWS_APPNAME = BASENAME + ' (Alpha)';
   var LINUX_APPNAME = BASENAME + ' (Alpha)';
+  var APP_DESCRIPTION = 'The desription of application';
   var OSX_OUT = './dist';
-  var OSX_OUT_X64 = OSX_OUT + '/' + OSX_APPNAME + '-darwin-x64';
-  var OSX_FILENAME = OSX_OUT_X64 + '/' + OSX_APPNAME + '.app';
+  var OSX_OUT_X64 = OSX_OUT + '/' + BASENAME + '-darwin-x64';
+  var OSX_FILENAME = OSX_OUT_X64 + '/' + BASENAME + '.app';
 
   // pathes ////////////////////////////////////////////////////////////////////////////////////////////////////////////
   var PathJsSrc = path.resolve(__dirname, 'src', 'js', 'app.js');
@@ -53,7 +54,7 @@ module.exports = function (grunt) {
       },
       osx: {
         options: {
-          name: OSX_APPNAME,
+          name: BASENAME,
           dir: 'build/',
           out: 'dist',
           version: packagejson['electron-version'],
@@ -65,7 +66,7 @@ module.exports = function (grunt) {
       },
       linux: {
         options: {
-          name: LINUX_APPNAME,
+          name: BASENAME,
           dir: 'build/',
           out: 'dist',
           version: packagejson['electron-version'],
@@ -176,7 +177,7 @@ module.exports = function (grunt) {
         }
       }
     },
-//
+
 //    rename: {
 //      installer: {
 //        src: 'dist/Setup.exe',
@@ -230,7 +231,7 @@ module.exports = function (grunt) {
         ].join(' && ')
       },
       zip: {
-        command: 'ditto -c -k --sequesterRsrc --keepParent <%= OSX_FILENAME_ESCAPED %> release/' + BASENAME + '-' + packagejson.version + '-Mac.zip'
+        command: 'ditto -c -k --sequesterRsrc --keepParent <%= OSX_FILENAME_ESCAPED %> release/' + BASENAME + '-' + packagejson.version + '-mac.zip'
       }
     },
 
@@ -241,7 +242,7 @@ module.exports = function (grunt) {
     compress: {
       windows: {
         options: {
-          archive: './release/' + BASENAME + '-' + packagejson.version + '-Windows.zip',
+          archive: './release/' + BASENAME + '-' + packagejson.version + '-windows.zip',
           mode: 'zip'
         },
         files: [{
@@ -250,6 +251,41 @@ module.exports = function (grunt) {
           cwd: './dist/' + BASENAME + '-win32-x64',
           src: '**/*'
         }]
+      }
+    },
+
+    'electron-installer-windows': {
+      options: {
+        productName: WINDOWS_APPNAME,
+        productDescription: APP_DESCRIPTION
+      },
+      win32: {
+        src: './dist/' + BASENAME + '-win32-x64',
+        dest: './release/'
+      }
+    },
+
+    'electron-installer-debian': {
+      options: {
+        productName: LINUX_APPNAME,
+        productDescription: APP_DESCRIPTION
+        // section: 'devel',
+        // priority: 'optional',
+        // categories: [
+        //   'Utility'
+        // ],
+        // lintianOverrides: [
+        //   'changelog-file-missing-in-native-package',
+        //   'executable-not-elf-or-script',
+        //   'extra-license-file'
+        // ]
+      },
+      linux64: {
+        options: {
+          arch: 'amd64'
+        },
+        src: './dist/' + BASENAME + '-linux-x64',
+        dest: './release/'
       }
     },
 
@@ -280,7 +316,7 @@ module.exports = function (grunt) {
 //  grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
   grunt.registerTask('default', ['less', 'webpack', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
 //  grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron', 'copy:osx', 'shell:sign', 'shell:zip', 'copy:windows', 'rcedit:exes', 'compress']);
-  grunt.registerTask('release', ['clean:release', 'less', 'webpack', 'copy:dev', 'electron', 'copy:osx', 'shell:sign', 'shell:zip', 'copy:windows', 'rcedit:exes', 'compress']);
+  grunt.registerTask('release', ['clean:release', 'less', 'webpack', 'copy:dev', 'electron', 'copy:osx', 'shell:sign', 'shell:zip', 'copy:windows', 'rcedit:exes', 'electron-installer-windows', 'electron-installer-debian']);
 
   process.on('SIGINT', function () {
     grunt.task.run(['shell:electron:kill']);
