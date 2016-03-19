@@ -34,7 +34,7 @@ module.exports = function (grunt) {
   var PathJsDst = path.resolve(__dirname, 'build', 'js');
 
   grunt.initConfig({
-    IDENTITY: 'Developer ID Application: dasrick',
+    IDENTITY: 'Developer ID Application: Enrico Hoffmann (M9E3AF4GW4)',
     OSX_FILENAME: OSX_FILENAME,
     OSX_FILENAME_ESCAPED: OSX_FILENAME.replace(/ /g, '\\ ').replace(/\(/g, '\\(').replace(/\)/g, '\\)'),
 
@@ -97,7 +97,7 @@ module.exports = function (grunt) {
             'FileDescription': WINDOWS_APPNAME,
             'InternalName': BASENAME + '.exe',
             'OriginalFilename': BASENAME + '.exe',
-            'LegalCopyright': 'Copyright 2016 dasrick. All rights reserved.'
+            'LegalCopyright': 'Copyright 2016 Enrico Hoffmann. All rights reserved.'
           }
         }
       }
@@ -171,8 +171,8 @@ module.exports = function (grunt) {
           src: ['terminal'],
           dest: '<%= OSX_FILENAME %>/Contents/Resources/resources/'
         }, {
-          src: 'assets/osx/icon.icns',  // ToDo vielleicht noch woanders und besser und und und
-          dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'  // ToDo vielleicht noch woanders - does it works?
+          src: 'assets/osx/icon.icns',
+          dest: '<%= OSX_FILENAME %>/Contents/Resources/atom.icns'
         }],
         options: {
           mode: true

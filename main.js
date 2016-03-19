@@ -4,6 +4,7 @@ var electron = require('electron');
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 var windowStateKeeper = require('electron-window-state');
+var releaseUrl = 'https://tox-electron-sample-nuts.herokuapp.com/latest?version=' + app.getVersion();
 
 // var autoUpdater = require('auto-updater');
 // autoUpdater.setFeedURL('https://tox-electron-sample-nuts.herokuapp.com/latest?version=' + app.getVersion());
@@ -82,6 +83,39 @@ app.on('ready', function () {
   // das menu
   var appMenu = electron.Menu.buildFromTemplate(getAppMenuTemplate());
   electron.Menu.setApplicationMenu(appMenu);
+
+
+  // === ### =======
+  mainWindow.webContents.on("did-finish-load", function() {
+    var autoUpdater = require('auto-updater');
+    autoUpdater.setFeedURL(releaseUrl);
+    console.log('releaseUrl: ' + releaseUrl);
+    mainWindow.webContents.send('releaseUrl', releaseUrl);
+    autoUpdater
+      .on('error', function (error) {
+        console.log('auto-updater on error: ', error);
+        mainWindow.webContents.send('error', error);
+      })
+      .on('checking-for-update', function () {
+        console.log('checking-for-update');
+        mainWindow.webContents.send('checking-for-update');
+      })
+      .on('update-available', function () {
+        console.log('update-available');
+        mainWindow.webContents.send('update-available');
+      })
+      .on('update-not-available', function () {
+        console.log('update-not-available');
+        mainWindow.webContents.send('update-not-available');
+      })
+      .on('update-downloaded', function () {
+        console.log('update-downloaded');
+        mainWindow.webContents.send('update-downloaded');
+        autoUpdater.quitAndInstall();
+      });
+    autoUpdater.checkForUpdates();
+  });
+  // === ### =======
 });
 
 // OSX only

@@ -3,6 +3,7 @@
 var appName = 'tox-electron-sample';
 var angular = require('angular');
 
+require('angular-electron');
 require('angular-loading-bar');
 require('angular-resource');
 require('angular-sanitize');
@@ -11,6 +12,7 @@ require('angular-translate-loader-partial');
 require('angular-ui-router');
 
 var requires = [
+  'angular-electron',
   'angular-loading-bar',
   'ngResource',
   'ngSanitize',
