@@ -3,8 +3,7 @@ var path = require('path');
 var electron = require('electron');
 var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
-
-//const injectBundle = require('./inject-onload.js');
+var windowStateKeeper = require('electron-window-state');
 
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 
@@ -27,11 +26,19 @@ app.on('window-all-closed', function () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function () {
+  // Load the previous state with fallback to defaults
+  var mainWindowState = windowStateKeeper({
+    defaultWidth: 800,
+    defaultHeight: 600
+  });
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     title: 'Mein Title - deng', // ToDo überschreibt den Titel aus der index.html - vllt. brauht man das noch
-    width: 800,
-    height: 600,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     resizable: true,
     center: true,
     show: true,
@@ -40,6 +47,11 @@ app.on('ready', function () {
     //icon: 'assets/icon.png',
     titleBarStyle: 'hidden-inset'
   });
+
+  // Let us register listeners on the window, so we can update the state
+  // automatically (the listeners will be removed when the window is closed)
+  // and restore the maximized or full screen state
+  mainWindowState.manage(mainWindow);
 
   // and load the index.html of the app.
   mainWindow.loadURL(path.normalize('file://' + path.join(__dirname, 'index.html')));
@@ -70,7 +82,6 @@ app.on('ready', function () {
 });
 
 // OSX only
-//console.log('dark mode: ', app.isDarkMode());
 app.on('platform-theme-changed', function () {
   mainWindow.reload();
 });

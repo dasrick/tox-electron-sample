@@ -17,6 +17,7 @@
   "electron-version": "0.37.2",
   "devDependencies": {
     "electron-prebuilt": "^0.37.2",
+    "electron-window-state": "^2.0.0",
     "grunt": "^0.4.5",
     "grunt-chmod": "^1.1.1",
     "grunt-cli": "^0.1.13",
