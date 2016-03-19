@@ -42,7 +42,6 @@
     "grunt-electron-installer-windows": "^0.2.0",
     "grunt-newer": "^1.1.2",
     "grunt-rcedit": "^0.4.0",
-    "grunt-rename": "^0.1.4",
     "grunt-shell": "^1.2.1",
     "grunt-shell-spawn": "^0.3.10",
     "grunt-webpack": "^1.0.11",

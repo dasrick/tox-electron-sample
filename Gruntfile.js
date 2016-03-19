@@ -103,7 +103,7 @@ module.exports = function (grunt) {
       }
     },
 
-//    // images
+    // images
     copy: {
       dev: {
         files: [
@@ -130,8 +130,8 @@ module.exports = function (grunt) {
             cwd: 'src/js/components/',
             src: ['**/views/*'],
             dest: 'build/views/',
-            rename: function(dest, src) {
-              return dest + src.replace('/views/','/');
+            rename: function (dest, src) {
+              return dest + src.replace('/views/', '/');
             }
           },
           {
@@ -139,13 +139,15 @@ module.exports = function (grunt) {
             cwd: 'src/js/components/',
             src: ['**/translations/*'],
             dest: 'build/i18n/',
-            rename: function(dest, src) {
-              return dest + src.replace('/translations/','/');
+            rename: function (dest, src) {
+              return dest + src.replace('/translations/', '/');
             }
           },
           {
             cwd: 'node_modules/',
-            src: Object.keys(packagejson.dependencies).map(function (dep) { return dep + '/**/*';}),
+            src: Object.keys(packagejson.dependencies).map(function (dep) {
+              return dep + '/**/*';
+            }),
             dest: 'build/node_modules/',
             expand: true
           }
@@ -247,13 +249,6 @@ module.exports = function (grunt) {
       }
     },
 
-    rename: {
-      osx: {
-        src: 'dist/' + BASENAME + '-darwin-x64/' + BASENAME + '.app',
-        dest: 'dist/' + BASENAME + '-darwin-x64/' + OSX_APPNAME + '.app'
-      }
-    },
-
     'electron-installer-windows': {
       options: {
         productName: WINDOWS_APPNAME,
@@ -312,10 +307,8 @@ module.exports = function (grunt) {
       }
     }
   });
-//
-//  grunt.registerTask('default', ['newer:babel', 'less', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
+
   grunt.registerTask('default', ['less', 'webpack', 'newer:copy:dev', 'shell:electron', 'watchChokidar']);
-//  grunt.registerTask('release', ['clean:release', 'babel', 'less', 'copy:dev', 'electron', 'copy:osx', 'shell:sign', 'shell:zip', 'copy:windows', 'rcedit:exes', 'compress']);
   grunt.registerTask('release', ['clean:release', 'less', 'webpack', 'copy:dev', 'electron', 'copy:osx', 'shell:sign', 'shell:zip', 'copy:windows', 'rcedit:exes', 'electron-installer-windows', 'electron-installer-debian']);
 
   process.on('SIGINT', function () {
