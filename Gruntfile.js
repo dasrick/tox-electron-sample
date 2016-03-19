@@ -141,6 +141,12 @@ module.exports = function (grunt) {
             rename: function(dest, src) {
               return dest + src.replace('/translations/','/');
             }
+          },
+          {
+            cwd: 'node_modules/',
+            src: Object.keys(packagejson.dependencies).map(function (dep) { return dep + '/**/*';}),
+            dest: 'build/node_modules/',
+            expand: true
           }
         ]
       },
