@@ -5,6 +5,9 @@ var app = electron.app;
 var BrowserWindow = electron.BrowserWindow;
 var windowStateKeeper = require('electron-window-state');
 
+// var autoUpdater = require('auto-updater');
+// autoUpdater.setFeedURL('https://tox-electron-sample-nuts.herokuapp.com/latest?version=' + app.getVersion());
+
 process.env.NODE_PATH = path.join(__dirname, 'node_modules');
 
 // Report crashes to our server.

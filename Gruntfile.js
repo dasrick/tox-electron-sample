@@ -21,13 +21,13 @@ module.exports = function (grunt) {
 //  };
 
   var BASENAME = 'tox-electron-sample';
-  var OSX_APPNAME = BASENAME + ' (Alpha)';
+  var OSX_APPNAME = 'toxElectronSample';
   var WINDOWS_APPNAME = BASENAME + ' (Alpha)';
   var LINUX_APPNAME = BASENAME + ' (Alpha)';
   var APP_DESCRIPTION = 'The desription of application';
   var OSX_OUT = './dist';
-  var OSX_OUT_X64 = OSX_OUT + '/' + BASENAME + '-darwin-x64';
-  var OSX_FILENAME = OSX_OUT_X64 + '/' + BASENAME + '.app';
+  var OSX_OUT_X64 = OSX_OUT + '/' + OSX_APPNAME + '-darwin-x64';
+  var OSX_FILENAME = OSX_OUT_X64 + '/' + OSX_APPNAME + '.app';
 
   // pathes ////////////////////////////////////////////////////////////////////////////////////////////////////////////
   var PathJsSrc = path.resolve(__dirname, 'src', 'js', 'app.js');
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
       },
       osx: {
         options: {
-          name: BASENAME,
+          name: OSX_APPNAME,
           dir: 'build/',
           out: 'dist',
           version: packagejson['electron-version'],
@@ -178,13 +178,6 @@ module.exports = function (grunt) {
       }
     },
 
-//    rename: {
-//      installer: {
-//        src: 'dist/Setup.exe',
-//        dest: 'dist/' + BASENAME + 'Setup-' + packagejson.version + '-Windows-Alpha.exe'
-//      }
-//    },
-
     // styles
     less: {
       options: {
@@ -251,6 +244,13 @@ module.exports = function (grunt) {
           cwd: './dist/' + BASENAME + '-win32-x64',
           src: '**/*'
         }]
+      }
+    },
+
+    rename: {
+      osx: {
+        src: 'dist/' + BASENAME + '-darwin-x64/' + BASENAME + '.app',
+        dest: 'dist/' + BASENAME + '-darwin-x64/' + OSX_APPNAME + '.app'
       }
     },
 
