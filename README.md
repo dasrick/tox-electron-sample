@@ -1,4 +1,6 @@
-[![GitHub version][github-image]][github-url]
+[![GitHub release][github-image-release]][github-url]
+[![GitHub downloads all][github-image-downloads-all]][github-url]
+[![GitHub downloads latest][github-image-downloads-latest]][github-url]
 [![License][license-image]][license-url]
 
 ***
@@ -20,7 +22,10 @@ Electronized sample application based on AngularJS (frontend) and some more ...
 * Testen der Windows-App
 * evtl. auch noch die Linux-Variante ...
 
-[github-image]: https://img.shields.io/github/tag/dasrick/tox-electron-sample.svg?style=flat-square
+[github-image-release]: https://img.shields.io/github/release/dasrick/tox-electron-sample.svg?style=flat-square
+[github-image-downloads-all]: https://img.shields.io/github/downloads/dasrick/tox-electron-sample.svg?style=flat-square
+[github-image-downloads-latest]: https://img.shields.io/github/downloads/latest/dasrick/tox-electron-sample.svg?style=flat-square
 [github-url]: https://github.com/dasrick/tox-electron-sample
+
 [license-image]: https://img.shields.io/github/license/dasrick/tox-electron-sample.svg?style=flat-square
 [license-url]: https://github.com/dasrick/tox-electron-sample/blob/master/LICENSE
