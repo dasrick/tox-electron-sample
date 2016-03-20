@@ -3,7 +3,7 @@
 /**
  * @ngInject
  */
-module.exports = function (app, AlertService, ipcRenderer) {
+module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log) {
   var vm = this;
   // methods
   vm.updateNow = updateNow;
@@ -16,6 +16,23 @@ module.exports = function (app, AlertService, ipcRenderer) {
     messageCount: 0
   };
 
+  autoUpdater
+    .on('error', function () {
+      $log.error('core auto-updater on error');
+    })
+    .on('checking-for-update', function () {
+      $log.info('core auto-updater on checking-for-update');
+    })
+    .on('update-available', function () {
+      $log.info('core auto-updater on update-available');
+    })
+    .on('update-not-available', function () {
+      $log.info('core auto-updater on update-not-available');
+    })
+    .on('update-downloaded', function () {
+      $log.info('core auto-updater on update-downloaded');
+    });
+
   ipcRenderer
   // .on('releaseUrl', function (sender, url) {
   //   console.log('status-controller - releaseUrl: ', url);
@@ -26,22 +43,23 @@ module.exports = function (app, AlertService, ipcRenderer) {
       console.log('status-controller error: ', error);
     })
     .on('checking-for-update', function () {
-      // AlertService.add('info', 'checking-for-update');
-      vm.app.updateCheck = true;
+      // vm.app.updateCheck = true;
+      setUpdateState(true, false, false);
     })
     .on('update-available', function () {
-      // AlertService.add('info', 'update-available');
-      vm.app.updateCheck = false;
-      vm.app.updateDownload = true;
+      // vm.app.updateCheck = false;
+      // vm.app.updateDownload = true;
+      setUpdateState(false, true, false);
     })
     .on('update-not-available', function () {
-      // AlertService.add('info', 'update-not-available');
-      vm.app.updateCheck = false;
+      // vm.app.updateCheck = false;
+      setUpdateState(false, false, false);
     })
     .on('update-downloaded', function () {
       AlertService.add('info', 'core.msg.autoupdater.downloaded');
-      vm.app.updateDownload = false;
-      vm.app.updateAvailable = true;
+      // vm.app.updateDownload = false;
+      // vm.app.updateAvailable = true;
+      setUpdateState(false, false, true);
       vm.app.messageCount++;
     });
 
@@ -54,7 +72,18 @@ module.exports = function (app, AlertService, ipcRenderer) {
     vm.app.messageCount--;
   }
 
-  // ipcRenderer.on('update-now-reply', function(event, arg) {
-  //   console.log('controller ipcRenderer.on update-now-reply');
-  // });
+  function setUpdateState(check, download, available) {
+    vm.app.updateCheck = validBoolean(check);
+    vm.app.updateDownload = validBoolean(download);
+    vm.app.updateAvailable = validBoolean(available);
+  }
+
+  function validBoolean(value) {
+    if (angular.isUndefined(value) || (typeof value == 'boolean')) {
+      value = false;
+    }
+    return value;
+  }
+
+
 };

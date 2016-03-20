@@ -2,12 +2,13 @@
     <div class="col-xs-4 text-left">
         <p>
             v{{coreVm.app.version}}
-            <i ng-if="coreVm.app.updateDownload" class="fa fa-fw fa-refresh fa-spin"></i>
-            <i ng-if="coreVm.app.updateAvailable" class="fa fa-fw fa-exclamation-triangle"></i>
+            <i ng-if="coreVm.app.updateCheck" class="fa fa-fw fa-gear fa-spin  text-info"></i>
+            <i ng-if="coreVm.app.updateDownload" class="fa fa-fw fa-refresh fa-spin text-success"></i>
+            <i ng-if="coreVm.app.updateAvailable" class="fa fa-fw fa-exclamation-triangle text-warning"></i>
         </p>
     </div>
     <div class="col-xs-4 text-center">
-        <p>Made with <i class="fa fa-fw fa-heart"></i> by dasrick.</p>
+        <p>Made with <i class="fa fa-fw fa-heart text-danger"></i> by dasrick.</p>
     </div>
     <div class="col-xs-4 text-right">
         <p>...</p>
