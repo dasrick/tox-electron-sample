@@ -23,6 +23,7 @@
     "angular-sanitize": "^1.5.1",
     "angular-translate": "^2.10.0",
     "angular-translate-loader-partial": "^2.10.0",
+    "angular-ui-bootstrap": "^1.2.4",
     "angular-ui-router": "^0.2.18",
     "bootstrap": "^3.3.6",
     "electron-prebuilt": "^0.37.2",
@@ -47,6 +48,7 @@
     "grunt-shell-spawn": "^0.3.10",
     "grunt-webpack": "^1.0.11",
     "load-grunt-tasks": "^3.4.1",
+    "mi-angular-alert-service": "^2.0.12",
     "npm-font-source-sans-pro": "0.0.3",
     "shell-escape": "^0.2.0",
     "webpack": "^1.12.14"

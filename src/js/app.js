@@ -9,7 +9,9 @@ require('angular-resource');
 require('angular-sanitize');
 require('angular-translate');
 require('angular-translate-loader-partial');
+require('angular-ui-bootstrap');
 require('angular-ui-router');
+require('mi-angular-alert-service');
 
 var requires = [
   'angular-electron',
@@ -17,7 +19,9 @@ var requires = [
   'ngResource',
   'ngSanitize',
   'pascalprecht.translate',
+  'ui.bootstrap',
   'ui.router',
+  'mi.AlertService',
   require('./components').name
 ];
 
@@ -67,6 +71,15 @@ angular.module(appName, requires)
     cfpLoadingBarProvider.includeSpinner = false;
   }])
   // ===================================================================================================================
+
+  // mi-angular-alert-service //////////////////////////////////////////////////////////////////////////////////////////
+  .constant('ALERT_LEVELS', {
+    danger: {timeout: 10000},
+    warning: {timeout: 4000},
+    success: {timeout: 2000},
+    info: {timeout: 2000}
+  })
+// ===================================================================================================================
 
 ;
 

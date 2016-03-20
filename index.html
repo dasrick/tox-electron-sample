@@ -12,5 +12,9 @@
 <main ui-view="main"></main>
 <footer ui-view="footer"></footer>
 
+<div class="global-alerts" ng-cloak>
+    <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{alert.msg}}</uib-alert>
+</div>
+
 </body>
 </html>
