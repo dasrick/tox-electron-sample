@@ -22,57 +22,58 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Me
     })
     .on('checking-for-update', function () {
       $log.info('core auto-updater on checking-for-update');
+      setUpdateState(true, false, false);
     })
     .on('update-available', function () {
       $log.info('core auto-updater on update-available');
-
-      $log.warn('vm.app.updateDownload', vm.app.updateDownload);
       setUpdateState(false, true, false);
-      $log.warn('vm.app.updateDownload', vm.app.updateDownload);
-
     })
     .on('update-not-available', function () {
       $log.info('core auto-updater on update-not-available');
+      setUpdateState(false, false, false);
     })
     .on('update-downloaded', function () {
       $log.info('core auto-updater on update-downloaded');
-    });
-
-  ipcRenderer
-  // .on('releaseUrl', function (sender, url) {
-  //   console.log('status-controller - releaseUrl: ', url);
-  //   vm.ipcMsg = 'Url: ' + url;
-  // })
-    .on('error', function (sender, error) {
-      console.log('status-controller sender: ', sender);
-      console.log('status-controller error: ', error);
-
-      $log.error('core ipcRenderer on error');
-    })
-    .on('checking-for-update', function () {
-      // vm.app.updateCheck = true;
-      setUpdateState(true, false, false);
-      $log.info('core ipcRenderer on checking-for-update');
-    })
-    .on('update-available', function () {
-      // vm.app.updateCheck = false;
-      // vm.app.updateDownload = true;
-      setUpdateState(false, true, false);
-      $log.info('core ipcRenderer on update-available');
-    })
-    .on('update-not-available', function () {
-      // vm.app.updateCheck = false;
-      setUpdateState(false, false, false);
-      $log.info('core ipcRenderer on update-not-available');
-    })
-    .on('update-downloaded', function () {
-      AlertService.add('info', 'core.msg.autoupdater.downloaded');
-      // vm.app.updateDownload = false;
-      // vm.app.updateAvailable = true;
       setUpdateState(false, false, true);
-      $log.info('core ipcRenderer on update-downloaded');
+      AlertService.add('info', 'core.msg.autoupdater.downloaded');
       vm.app.messageCount++;
     });
+
+  // ipcRenderer
+  // // .on('releaseUrl', function (sender, url) {
+  // //   console.log('status-controller - releaseUrl: ', url);
+  // //   vm.ipcMsg = 'Url: ' + url;
+  // // })
+  //   .on('error', function (sender, error) {
+  //     console.log('status-controller sender: ', sender);
+  //     console.log('status-controller error: ', error);
+  //
+  //     $log.error('core ipcRenderer on error');
+  //   })
+  //   .on('checking-for-update', function () {
+  //     // vm.app.updateCheck = true;
+  //     setUpdateState(true, false, false);
+  //     $log.info('core ipcRenderer on checking-for-update');
+  //   })
+  //   .on('update-available', function () {
+  //     // vm.app.updateCheck = false;
+  //     // vm.app.updateDownload = true;
+  //     setUpdateState(false, true, false);
+  //     $log.info('core ipcRenderer on update-available');
+  //   })
+  //   .on('update-not-available', function () {
+  //     // vm.app.updateCheck = false;
+  //     setUpdateState(false, false, false);
+  //     $log.info('core ipcRenderer on update-not-available');
+  //   })
+  //   .on('update-downloaded', function () {
+  //     AlertService.add('info', 'core.msg.autoupdater.downloaded');
+  //     // vm.app.updateDownload = false;
+  //     // vm.app.updateAvailable = true;
+  //     setUpdateState(false, false, true);
+  //     $log.info('core ipcRenderer on update-downloaded');
+  //     vm.app.messageCount++;
+  //   });
 
 
   function updateNow() {
@@ -129,6 +130,12 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Me
           {
             label: $translate.instant('core.appmenu.app.about.label') + ' ' + name,
             role: 'about'
+          },
+          {
+            label: $translate.instant('core.appmenu.app.update.label'),
+            click: function () {
+              autoUpdater.checkForUpdates()
+            }
           },
           {
             type: 'separator'

@@ -102,34 +102,34 @@ app.on('ready', function () {
 
     if (process.env.NODE_ENV !== 'development') {
       autoUpdater.setFeedURL(releaseUrl);
-      autoUpdater
-        .on('error', function (error) {
-          console.log('auto-updater on error: ', error);
-          mainWindow.webContents.send('error', error);
-        })
-        .on('checking-for-update', function () {
-          console.log('checking-for-update');
-          mainWindow.webContents.send('checking-for-update');
-        })
-        .on('update-available', function () {
-          console.log('update-available');
-          mainWindow.webContents.send('update-available');
-        })
-        .on('update-not-available', function () {
-          console.log('update-not-available');
-          mainWindow.webContents.send('update-not-available');
-        })
-        .on('update-downloaded', function () {
-          console.log('update-downloaded');
-          mainWindow.webContents.send('update-downloaded');
-          // autoUpdater.quitAndInstall();
-        });
+      // autoUpdater
+      //   .on('error', function (error) {
+      //     console.log('auto-updater on error: ', error);
+      //     mainWindow.webContents.send('error', error);
+      //   })
+      //   .on('checking-for-update', function () {
+      //     console.log('checking-for-update');
+      //     mainWindow.webContents.send('checking-for-update');
+      //   })
+      //   .on('update-available', function () {
+      //     console.log('update-available');
+      //     mainWindow.webContents.send('update-available');
+      //   })
+      //   .on('update-not-available', function () {
+      //     console.log('update-not-available');
+      //     mainWindow.webContents.send('update-not-available');
+      //   })
+      //   .on('update-downloaded', function () {
+      //     console.log('update-downloaded');
+      //     mainWindow.webContents.send('update-downloaded');
+      //     // autoUpdater.quitAndInstall();
+      //   });
       autoUpdater.checkForUpdates();
-      ipcMain.on('update-now', function () {
-        console.log('main ipcMain update-now');
-        // event.sender.send('update-now-reply', 'ACK');  // will nich
-        autoUpdater.quitAndInstall();
-      });
+      // ipcMain.on('update-now', function () {
+      //   console.log('main ipcMain update-now');
+      //   // event.sender.send('update-now-reply', 'ACK');  // will nich
+      //   autoUpdater.quitAndInstall();
+      // });
     }
   });
   // === ### =======
