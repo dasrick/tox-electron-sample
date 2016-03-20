@@ -5,5 +5,7 @@
   "core.application.splitlabel.first": "tox",
   "core.application.splitlabel.second": "Electron",
 
+  "core.appmenu.app.about.label": "Über",
+
   "core.msg.autoupdater.downloaded": "Eine Aktualisierung der Applikation wurde heruntergeladen und kann nun installiert werden."
 }

@@ -14,5 +14,5 @@ module.exports = function (ipcRenderer) {
 
   ipcRenderer.on('send-os-data', function (sender, os) {
     vm.os = os;
-  })
+  });
 };

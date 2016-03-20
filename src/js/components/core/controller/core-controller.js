@@ -3,7 +3,7 @@
 /**
  * @ngInject
  */
-module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log) {
+module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Menu, $translate) {
   var vm = this;
   // methods
   vm.updateNow = updateNow;
@@ -85,5 +85,210 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log) {
     return value;
   }
 
+
+  if (!angular.isDefined(vm.os)) {
+    ipcRenderer.send('get-os-data');
+  }
+
+  ipcRenderer.on('send-os-data', function (sender, os) {
+    vm.os = os;
+
+    // build the app menu
+    var appMenu = Menu.buildFromTemplate(getAppMenuTemplate());
+    Menu.setApplicationMenu(appMenu);
+  });
+
+  // menu stuff ========================================================================================================
+  function getAppMenuTemplate() {
+    return [
+      getAppMenuApplication(),
+      getAppMenuEdit(),
+      getAppMenuView(),
+      getAppMenuWindow(),
+      getAppMenuHelp()
+    ];
+  }
+
+  function getAppMenuApplication() {
+    if (vm.os.platform === 'darwin') {
+      var name = app.getName();
+      return {
+        label: name,
+        submenu: [
+          {
+            label: $translate.instant('core.appmenu.app.about.label') + ' ' + name,
+            role: 'about'
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Services',
+            role: 'services',
+            submenu: []
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Hide ' + name,
+            accelerator: 'Command+H',
+            role: 'hide'
+          },
+          {
+            label: 'Hide Others',
+            accelerator: 'Command+Alt+H',
+            role: 'hideothers'
+          },
+          {
+            label: 'Show All',
+            role: 'unhide'
+          },
+          {
+            type: 'separator'
+          },
+          {
+            label: 'Quit',
+            accelerator: 'Command+Q',
+            click: function () {
+              app.quit()
+            }
+          }
+        ]
+      }
+    }
+  }
+
+  function getAppMenuEdit() {
+    return {
+      label: 'Edit',
+      submenu: [
+        {
+          label: 'Undo',
+          accelerator: 'CmdOrCtrl+Z',
+          role: 'undo'
+        },
+        {
+          label: 'Redo',
+          accelerator: 'Shift+CmdOrCtrl+Z',
+          role: 'redo'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Cut',
+          accelerator: 'CmdOrCtrl+X',
+          role: 'cut'
+        },
+        {
+          label: 'Copy',
+          accelerator: 'CmdOrCtrl+C',
+          role: 'copy'
+        },
+        {
+          label: 'Paste',
+          accelerator: 'CmdOrCtrl+V',
+          role: 'paste'
+        },
+        {
+          label: 'Select All',
+          accelerator: 'CmdOrCtrl+A',
+          role: 'selectall'
+        }
+      ]
+    };
+  }
+
+  function getAppMenuView() {
+    return {
+      label: 'View',
+      submenu: [
+        {
+          label: 'Reload',
+          accelerator: 'CmdOrCtrl+R',
+          click: function (item, focusedWindow) {
+            if (focusedWindow)
+              focusedWindow.reload();
+          }
+        },
+        {
+          label: 'Toggle Full Screen',
+          accelerator: (function () {
+            if (vm.os.platform == 'darwin')
+              return 'Ctrl+Command+F';
+            else
+              return 'F11';
+          })(),
+          click: function (item, focusedWindow) {
+            if (focusedWindow)
+              focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+          }
+        },
+        {
+          label: 'Toggle Developer Tools',
+          accelerator: (function () {
+            if (vm.os.platform == 'darwin')
+              return 'Alt+Command+I';
+            else
+              return 'Ctrl+Shift+I';
+          })(),
+          click: function (item, focusedWindow) {
+            if (focusedWindow)
+              focusedWindow.toggleDevTools();
+          }
+        }
+      ]
+    };
+  }
+
+  function getAppMenuWindow() {
+    var template = {
+      label: 'Window',
+      role: 'window',
+      submenu: [
+        {
+          label: 'Minimize',
+          accelerator: 'CmdOrCtrl+M',
+          role: 'minimize'
+        },
+        {
+          label: 'Close',
+          accelerator: 'CmdOrCtrl+W',
+          role: 'close'
+        }
+
+      ]
+    };
+
+    if (vm.os.platform === 'darwin') {
+      template.submenu.push(
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Bring All to Front',
+          role: 'front'
+        }
+      );
+    }
+
+    return template;
+  }
+
+  function getAppMenuHelp() {
+    return {
+      label: 'Help',
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click: function () {
+            // require('electron').shell.openExternal('http://electron.atom.io'); // ToDo check
+          }
+        }
+      ]
+    };
+  }
 
 };
