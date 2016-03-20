@@ -3,6 +3,16 @@
         <p><span>tox</span><span>electron</span></p>
     </div>
     <div class="col-xs-6 text-right">
-        <p>Hello Anon</p>
+        <div ng-if="coreVm.app.messageCount > 0"
+                class="btn-group" uib-dropdown is-open="status.isopen">
+            <button id="core-msg" type="button" class="btn btn-link" uib-dropdown-toggle ng-disabled="disabled">
+                <i class="fa fa-fw fa-bell"></i><span class="label label-danger label-as-badge">{{coreVm.app.messageCount}}</span>
+            </button>
+            <ul uib-dropdown-menu role="menu" aria-labelledby="core-msg" class="dropdown-menu-right">
+                <li ng-if="coreVm.app.updateAvailable" role="menuitem">
+                    <a href ng-click="coreVm.updateNow()">Update now</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

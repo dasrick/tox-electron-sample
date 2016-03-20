@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var electron = require('electron');
 var app = electron.app;
+var ipcMain = electron.ipcMain;
 var BrowserWindow = electron.BrowserWindow;
 var windowStateKeeper = require('electron-window-state');
 
@@ -112,9 +113,19 @@ app.on('ready', function () {
       .on('update-downloaded', function () {
         console.log('update-downloaded');
         mainWindow.webContents.send('update-downloaded');
-        autoUpdater.quitAndInstall();
+        // autoUpdater.quitAndInstall();
       });
     autoUpdater.checkForUpdates();
+    // mainWindow.webContents.on('update-now', function () {
+    //   console.log('MAIN MAIN UPDATE NOW');
+    //   // autoUpdater.quitAndInstall();
+    // });
+    ipcMain.on('update-now', function(event) {
+      console.log('main ipcMain update-now');
+      // event.sender.send('update-now-reply', 'ACK');  // will nich
+      autoUpdater.quitAndInstall();
+    });
+
   });
   // === ### =======
 });
