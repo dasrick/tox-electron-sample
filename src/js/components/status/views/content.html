@@ -1,21 +1,83 @@
 <section class="section-body">
-    <h3>Status</h3>
-    <p>Hier kann man viel machen ...</p>
+    <h3>OS data by node.js</h3>
+    <p>the following information delivered by node.js os ... see https://nodejs.org/api/os.html</p>
+    <table class="table table-condensed">
+        <tr>
+            <th>key</th>
+            <th>value</th>
+        </tr>
+        <tr>
+            <td>CPU architecture</td>
+            <td>{{statusVm.os.arch}}</td>
+        </tr>
+        <tr>
+            <td>uptime</td>
+            <td>{{statusVm.os.uptime}}</td>
+        </tr>
+        <tr>
+            <td>freemem</td>
+            <td>{{statusVm.os.freemem}}</td>
+        </tr>
+        <tr>
+            <td>totalmem</td>
+            <td>{{statusVm.os.totalmem}}</td>
+        </tr>
+        <tr>
+            <td>homedir</td>
+            <td>{{statusVm.os.homedir}}</td>
+        </tr>
+        <tr>
+            <td>tmpdir</td>
+            <td>{{statusVm.os.tmpdir}}</td>
+        </tr>
+        <tr>
+            <td>hostname</td>
+            <td>{{statusVm.os.hostname}}</td>
+        </tr>
+        <tr>
+            <td>platform</td>
+            <td>{{statusVm.os.platform}}</td>
+        </tr>
+        <tr>
+            <td>release</td>
+            <td>{{statusVm.os.release}}</td>
+        </tr>
+        <tr>
+            <td>type</td>
+            <td>{{statusVm.os.type}}</td>
+        </tr>
+        <tr>
+            <td>endianness</td>
+            <td>{{statusVm.os.endianness}}</td>
+        </tr>
+        <tr ng-repeat="load in statusVm.os.loadavg">
+            <td>Load {{$index + 1}}</td>
+            <td>{{load}}</td>
+        </tr>
+        <tr ng-repeat="cpu in statusVm.os.cpus">
+            <td>CPU {{$index + 1}}</td>
+            <td>
+                Model: {{cpu.model}}<br>
+                Speed: {{cpu.speed}} MHz<br>
+                Times idle: {{cpu.times.idle}}<br>
+                Times irq: {{cpu.times.irq}}<br>
+                Times nice: {{cpu.times.nice}}<br>
+                Times user: {{cpu.times.user}}<br>
+                Times sys: {{cpu.times.sys}}
+            </td>
+        </tr>
+        <tr ng-repeat="(key, nwi)  in statusVm.os.networkInterfaces">
+            <td>Network interface - {{key}}</td>
+            <td>
+                <div ng-repeat="nwisetup  in nwi">
+                    <hr ng-if="$index > 0">
+                    <p ng-repeat="(key, value)  in nwisetup">
+                        <span class="text-uppercase">{{key}}</span>
+                        <span>{{value}}</span>
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </table>
 
-    <p>arch: {{statusVm.os.arch}}</p>
-    <p>cpus: {{statusVm.os.cpus}}</p>
-    <p>endianness: {{statusVm.os.endianness}}</p>
-    <p>freemem: {{statusVm.os.freemem}}</p>
-    <p>homedir: {{statusVm.os.homedir}}</p>
-    <p>hostname: {{statusVm.os.hostname}}</p>
-    <p>loadavg: {{statusVm.os.loadavg}}</p>
-    <p>networkInterfaces: {{statusVm.os.networkInterfaces}}</p>
-    <p>platform: {{statusVm.os.platform}}</p>
-    <p>release: {{statusVm.os.release}}</p>
-    <p>tmpdir: {{statusVm.os.tmpdir}}</p>
-    <p>totalmem: {{statusVm.os.totalmem}}</p>
-    <p>type: {{statusVm.os.type}}</p>
-    <p>uptime: {{statusVm.os.uptime}}</p>
-
-    <p>j sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lfj sd skjdsldkj lslk sbldfblsdkjfb sldfbsldkjfb lsdfbskdjb flksbd slkjdb fsdlkjfbls dfbsd fs dlfkjbsd lf</p>
 </section>

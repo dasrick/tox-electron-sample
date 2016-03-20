@@ -78,6 +78,8 @@ app.on('ready', function () {
 
   // inject css by dark mode on/off
   mainWindow.webContents.on('dom-ready', function () {
+    console.log('main webContents dom-ready');
+
     var cssFileName = (app.isDarkMode()) ? 'theme.dark.css' : 'theme.light.css';
     var cssFile = fs.readFileSync(path.resolve(__dirname, 'css', cssFileName), 'utf8');
     mainWindow.webContents.insertCSS(cssFile);
@@ -90,61 +92,46 @@ app.on('ready', function () {
 
   // === ### =======
   mainWindow.webContents.on('did-finish-load', function () {
-    autoUpdater.setFeedURL(releaseUrl);
-
+    console.log('main webContents did-finish-load');
     console.log('releaseUrl: ' + releaseUrl);
     mainWindow.webContents.send('releaseUrl', releaseUrl);
 
-    var osData = {
-      arch: os.arch(),
-      cpus: os.cpus(),
-      endianness: os.endianness(),
-      freemem: os.freemem(),
-      homedir: os.homedir(),
-      hostname: os.hostname(),
-      loadavg: os.loadavg(),
-      networkInterfaces: os.networkInterfaces(),
-      platform: os.platform(),
-      release: os.release(),
-      tmpdir: os.tmpdir(),
-      totalmem: os.totalmem(),
-      type: os.type(),
-      uptime: os.uptime()
-    };
-    mainWindow.webContents.send('send-os-data', osData);
-
-    autoUpdater
-      .on('error', function (error) {
-        console.log('auto-updater on error: ', error);
-        mainWindow.webContents.send('error', error);
-      })
-      .on('checking-for-update', function () {
-        console.log('checking-for-update');
-        mainWindow.webContents.send('checking-for-update');
-      })
-      .on('update-available', function () {
-        console.log('update-available');
-        mainWindow.webContents.send('update-available');
-      })
-      .on('update-not-available', function () {
-        console.log('update-not-available');
-        mainWindow.webContents.send('update-not-available');
-      })
-      .on('update-downloaded', function () {
-        console.log('update-downloaded');
-        mainWindow.webContents.send('update-downloaded');
-        // autoUpdater.quitAndInstall();
-      });
-    autoUpdater.checkForUpdates();
-    // mainWindow.webContents.on('update-now', function () {
-    //   console.log('MAIN MAIN UPDATE NOW');
-    //   // autoUpdater.quitAndInstall();
-    // });
-    ipcMain.on('update-now', function (event) {
-      console.log('main ipcMain update-now');
-      // event.sender.send('update-now-reply', 'ACK');  // will nich
-      autoUpdater.quitAndInstall();
+    ipcMain.on('get-os-data', function () {
+      console.log('main webContents send-os-data');
+      mainWindow.webContents.send('send-os-data', getOsData());
     });
+
+    if (process.env.NODE_ENV !== 'development') {
+      autoUpdater.setFeedURL(releaseUrl);
+      autoUpdater
+        .on('error', function (error) {
+          console.log('auto-updater on error: ', error);
+          mainWindow.webContents.send('error', error);
+        })
+        .on('checking-for-update', function () {
+          console.log('checking-for-update');
+          mainWindow.webContents.send('checking-for-update');
+        })
+        .on('update-available', function () {
+          console.log('update-available');
+          mainWindow.webContents.send('update-available');
+        })
+        .on('update-not-available', function () {
+          console.log('update-not-available');
+          mainWindow.webContents.send('update-not-available');
+        })
+        .on('update-downloaded', function () {
+          console.log('update-downloaded');
+          mainWindow.webContents.send('update-downloaded');
+          // autoUpdater.quitAndInstall();
+        });
+      autoUpdater.checkForUpdates();
+      ipcMain.on('update-now', function () {
+        console.log('main ipcMain update-now');
+        // event.sender.send('update-now-reply', 'ACK');  // will nich
+        autoUpdater.quitAndInstall();
+      });
+    }
   });
   // === ### =======
 });
@@ -323,4 +310,23 @@ function getAppMenuTemplate() {
   }
 
   return template
+}
+
+function getOsData() {
+  return {
+    arch: os.arch(),
+    cpus: os.cpus(),
+    endianness: os.endianness(),
+    freemem: os.freemem(),
+    homedir: os.homedir(),
+    hostname: os.hostname(),
+    loadavg: os.loadavg(),
+    networkInterfaces: os.networkInterfaces(),
+    platform: os.platform(),
+    release: os.release(),
+    tmpdir: os.tmpdir(),
+    totalmem: os.totalmem(),
+    type: os.type(),
+    uptime: os.uptime()
+  };
 }
