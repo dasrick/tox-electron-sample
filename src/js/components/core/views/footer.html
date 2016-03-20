@@ -1,6 +1,10 @@
 <div class="row">
     <div class="col-xs-4 text-left">
-        <p>v{{coreVm.app.version}}</p>
+        <p>
+            v{{coreVm.app.version}}
+            <i ng-if="coreVm.app.updateDownload" class="fa fa-fw fa-refresh fa-spin"></i>
+            <i ng-if="coreVm.app.updateAvailable" class="fa fa-fw fa-exclamation-triangle"></i>
+        </p>
     </div>
     <div class="col-xs-4 text-center">
         <p>Made with <i class="fa fa-fw fa-heart"></i> by dasrick.</p>

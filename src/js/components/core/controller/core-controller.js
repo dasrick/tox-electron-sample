@@ -10,41 +10,41 @@ module.exports = function (app, AlertService, ipcRenderer) {
   // vars
   vm.app = {
     version: app.getVersion(),
+    updateCheck: false,
+    updateDownload: false,
     updateAvailable: false,
     messageCount: 0
   };
 
-
   ipcRenderer
-    // .on('releaseUrl', function (sender, url) {
-    //   console.log('status-controller - releaseUrl: ', url);
-    //   vm.ipcMsg = 'Url: ' + url;
-    // })
-    .on('error', function (sender, error, x) {
+  // .on('releaseUrl', function (sender, url) {
+  //   console.log('status-controller - releaseUrl: ', url);
+  //   vm.ipcMsg = 'Url: ' + url;
+  // })
+    .on('error', function (sender, error) {
       console.log('status-controller sender: ', sender);
       console.log('status-controller error: ', error);
-      console.log('status-controller x: ', x);
     })
     .on('checking-for-update', function () {
-      console.log('checking-for-update');
-      AlertService.add('info', 'checking-for-update');
+      // AlertService.add('info', 'checking-for-update');
+      vm.app.updateCheck = true;
     })
     .on('update-available', function () {
-      console.log('update-available');
-      AlertService.add('info', 'update-available');
+      // AlertService.add('info', 'update-available');
+      vm.app.updateCheck = false;
+      vm.app.updateDownload = true;
     })
     .on('update-not-available', function () {
-      console.log('update-not-available');
-      AlertService.add('info', 'update-not-available');
+      // AlertService.add('info', 'update-not-available');
+      vm.app.updateCheck = false;
     })
     .on('update-downloaded', function () {
-      console.log('update-downloaded');
-      AlertService.add('info', 'update-downloaded');
+      AlertService.add('info', 'core.msg.autoupdater.downloaded');
+      vm.app.updateDownload = false;
       vm.app.updateAvailable = true;
       vm.app.messageCount++;
     });
 
-  // ipcRenderer.sendToHost();
 
   function updateNow() {
     console.log('controller ipcRenderer.send update-now');

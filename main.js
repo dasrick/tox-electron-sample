@@ -91,8 +91,28 @@ app.on('ready', function () {
   // === ### =======
   mainWindow.webContents.on('did-finish-load', function () {
     autoUpdater.setFeedURL(releaseUrl);
+
     console.log('releaseUrl: ' + releaseUrl);
     mainWindow.webContents.send('releaseUrl', releaseUrl);
+
+    var osData = {
+      arch: os.arch(),
+      cpus: os.cpus(),
+      endianness: os.endianness(),
+      freemem: os.freemem(),
+      homedir: os.homedir(),
+      hostname: os.hostname(),
+      loadavg: os.loadavg(),
+      networkInterfaces: os.networkInterfaces(),
+      platform: os.platform(),
+      release: os.release(),
+      tmpdir: os.tmpdir(),
+      totalmem: os.totalmem(),
+      type: os.type(),
+      uptime: os.uptime()
+    };
+    mainWindow.webContents.send('send-os-data', osData);
+
     autoUpdater
       .on('error', function (error) {
         console.log('auto-updater on error: ', error);
@@ -120,12 +140,11 @@ app.on('ready', function () {
     //   console.log('MAIN MAIN UPDATE NOW');
     //   // autoUpdater.quitAndInstall();
     // });
-    ipcMain.on('update-now', function(event) {
+    ipcMain.on('update-now', function (event) {
       console.log('main ipcMain update-now');
       // event.sender.send('update-now-reply', 'ACK');  // will nich
       autoUpdater.quitAndInstall();
     });
-
   });
   // === ### =======
 });

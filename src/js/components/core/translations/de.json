@@ -1,35 +1,9 @@
 {
-  "core.application.label": "CustomerControlCenter",
-  "core.application.title": "CCC",
+  "core.application.label": "toxElectronSample",
+  "core.application.title": "toxElectronSample",
   "core.application.icon": "fa-circle-o-notch",
+  "core.application.splitlabel.first": "tox",
+  "core.application.splitlabel.second": "Electron",
 
-  "core.header.menu.app.icon": "fa-th-large",
-  "core.header.menu.app.label": "Menü",
-  "core.header.menu.app.title": "Menü, das viel kann",
-
-  "core.header.logout.icon": "fa-sign-out",
-  "core.header.logout.label": "Logout",
-  "core.header.logout.title": "Hier können Sie sich vom System abmelden.",
-
-  "core.section.admin.label": "Globale Einstellungen",
-  "core.section.admin.icon": "fa-globe",
-  "core.section.admin.title": "Hier werden alle globalen Elemente definiert.",
-  "core.section.management.label": "Kunden-Verwaltung",
-  "core.section.management.icon": "fa-shopping-cart",
-  "core.section.management.title": "Hier werden alle kundenspezifische Elemente definiert.",
-  "core.section.profile.label": "Profil-Einstellungen",
-  "core.section.profile.icon": "fa-cog",
-  "core.section.profile.title": "Hier können Einstellungen am eigenen Account vorgenommen werden.",
-
-  "core.icon.active.title": "Aktivierungs-Status",
-  "core.icon.in-use.title": "Verwendungs-Status",
-  "core.icon.under-review.title": "Überprüfungs-Status",
-
-  "core.form.btn.cancel.label": "Abbrechen",
-  "core.form.btn.save.label": "Speichern",
-
-  "core.action.edit.label": "Aktualisieren",
-  "core.action.delete.label": "Löschen",
-
-  "core.msg.review.description": "Dieser Datensatz kann nicht bearbeitet werden, da dieser derzeit einen Review-Prozess durchläuft."
+  "core.msg.autoupdater.downloaded": "Eine Aktualisierung der Applikation wurde heruntergeladen und kann nun installiert werden."
 }
