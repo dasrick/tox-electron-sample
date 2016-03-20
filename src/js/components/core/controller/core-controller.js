@@ -25,6 +25,11 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Me
     })
     .on('update-available', function () {
       $log.info('core auto-updater on update-available');
+
+      $log.warn('vm.app.updateDownload', vm.app.updateDownload);
+      setUpdateState(false, true, false);
+      $log.warn('vm.app.updateDownload', vm.app.updateDownload);
+
     })
     .on('update-not-available', function () {
       $log.info('core auto-updater on update-not-available');
@@ -41,25 +46,31 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Me
     .on('error', function (sender, error) {
       console.log('status-controller sender: ', sender);
       console.log('status-controller error: ', error);
+
+      $log.error('core ipcRenderer on error');
     })
     .on('checking-for-update', function () {
       // vm.app.updateCheck = true;
       setUpdateState(true, false, false);
+      $log.info('core ipcRenderer on checking-for-update');
     })
     .on('update-available', function () {
       // vm.app.updateCheck = false;
       // vm.app.updateDownload = true;
       setUpdateState(false, true, false);
+      $log.info('core ipcRenderer on update-available');
     })
     .on('update-not-available', function () {
       // vm.app.updateCheck = false;
       setUpdateState(false, false, false);
+      $log.info('core ipcRenderer on update-not-available');
     })
     .on('update-downloaded', function () {
       AlertService.add('info', 'core.msg.autoupdater.downloaded');
       // vm.app.updateDownload = false;
       // vm.app.updateAvailable = true;
       setUpdateState(false, false, true);
+      $log.info('core ipcRenderer on update-downloaded');
       vm.app.messageCount++;
     });
 
@@ -79,7 +90,7 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Me
   }
 
   function validBoolean(value) {
-    if (angular.isUndefined(value) || (typeof value == 'boolean')) {
+    if (angular.isUndefined(value) || (typeof value !== 'boolean')) {
       value = false;
     }
     return value;
