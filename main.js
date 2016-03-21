@@ -6,7 +6,7 @@ var ipcMain = electron.ipcMain;
 var BrowserWindow = electron.BrowserWindow;
 var windowStateKeeper = require('electron-window-state');
 
-var autoUpdater = require('auto-updater');
+// var autoUpdater = require('auto-updater');
 var os = require('os');
 var platform = os.platform() + '_' + os.arch();
 var version = app.getVersion();
@@ -85,52 +85,63 @@ app.on('ready', function () {
     mainWindow.webContents.insertCSS(cssFile);
   });
 
-  // das menu
-  // var appMenu = electron.Menu.buildFromTemplate(getAppMenuTemplate());
-  // electron.Menu.setApplicationMenu(appMenu);
-
   // === ### =======
   mainWindow.webContents.on('did-finish-load', function () {
     console.log('main webContents did-finish-load');
-    console.log('releaseUrl: ' + releaseUrl);
-    mainWindow.webContents.send('releaseUrl', releaseUrl);
+
+    // auto-updater only in !development
+    // console.log('process.env.NODE_ENV: ', process.env.NODE_ENV);
+    // if (process.env.NODE_ENV !== 'development') {
+    //   console.log('send-release-url: ', releaseUrl);
+    //   mainWindow.webContents.send('send-release-url', releaseUrl);
+    // }
+    
+    ipcMain.on('get-release-url', function () {
+      console.log('main webContents send-release-url');
+      mainWindow.webContents.send('send-release-url', releaseUrl);
+    });
 
     ipcMain.on('get-os-data', function () {
       console.log('main webContents send-os-data');
       mainWindow.webContents.send('send-os-data', getOsData());
     });
 
-    if (process.env.NODE_ENV !== 'development') {
-      autoUpdater.setFeedURL(releaseUrl);
-      // autoUpdater
-      //   .on('error', function (error) {
-      //     console.log('auto-updater on error: ', error);
-      //     mainWindow.webContents.send('error', error);
-      //   })
-      //   .on('checking-for-update', function () {
-      //     console.log('checking-for-update');
-      //     mainWindow.webContents.send('checking-for-update');
-      //   })
-      //   .on('update-available', function () {
-      //     console.log('update-available');
-      //     mainWindow.webContents.send('update-available');
-      //   })
-      //   .on('update-not-available', function () {
-      //     console.log('update-not-available');
-      //     mainWindow.webContents.send('update-not-available');
-      //   })
-      //   .on('update-downloaded', function () {
-      //     console.log('update-downloaded');
-      //     mainWindow.webContents.send('update-downloaded');
-      //     // autoUpdater.quitAndInstall();
-      //   });
-      autoUpdater.checkForUpdates();
-      // ipcMain.on('update-now', function () {
-      //   console.log('main ipcMain update-now');
-      //   // event.sender.send('update-now-reply', 'ACK');  // will nich
-      //   autoUpdater.quitAndInstall();
-      // });
-    }
+    ipcMain.on('get-node-env', function () {
+      console.log('main webContents send-node-env');
+      mainWindow.webContents.send('send-node-env', process.env.NODE_ENV);
+    });
+
+    // if (process.env.NODE_ENV !== 'development') {
+    //   autoUpdater.setFeedURL(releaseUrl);
+    // autoUpdater
+    //   .on('error', function (error) {
+    //     console.log('auto-updater on error: ', error);
+    //     mainWindow.webContents.send('error', error);
+    //   })
+    //   .on('checking-for-update', function () {
+    //     console.log('checking-for-update');
+    //     mainWindow.webContents.send('checking-for-update');
+    //   })
+    //   .on('update-available', function () {
+    //     console.log('update-available');
+    //     mainWindow.webContents.send('update-available');
+    //   })
+    //   .on('update-not-available', function () {
+    //     console.log('update-not-available');
+    //     mainWindow.webContents.send('update-not-available');
+    //   })
+    //   .on('update-downloaded', function () {
+    //     console.log('update-downloaded');
+    //     mainWindow.webContents.send('update-downloaded');
+    //     // autoUpdater.quitAndInstall();
+    //   });
+    // autoUpdater.checkForUpdates();
+    // ipcMain.on('update-now', function () {
+    //   console.log('main ipcMain update-now');
+    //   // event.sender.send('update-now-reply', 'ACK');  // will nich
+    //   autoUpdater.quitAndInstall();
+    // });
+    // }
   });
   // === ### =======
 });
@@ -140,177 +151,7 @@ app.on('platform-theme-changed', function () {
   mainWindow.reload();
 });
 
-
-// function getAppMenuTemplate() {
-//   var template = [
-//     {
-//       label: 'Edit',
-//       submenu: [
-//         {
-//           label: 'Undo',
-//           accelerator: 'CmdOrCtrl+Z',
-//           role: 'undo'
-//         },
-//         {
-//           label: 'Redo',
-//           accelerator: 'Shift+CmdOrCtrl+Z',
-//           role: 'redo'
-//         },
-//         {
-//           type: 'separator'
-//         },
-//         {
-//           label: 'Cut',
-//           accelerator: 'CmdOrCtrl+X',
-//           role: 'cut'
-//         },
-//         {
-//           label: 'Copy',
-//           accelerator: 'CmdOrCtrl+C',
-//           role: 'copy'
-//         },
-//         {
-//           label: 'Paste',
-//           accelerator: 'CmdOrCtrl+V',
-//           role: 'paste'
-//         },
-//         {
-//           label: 'Select All',
-//           accelerator: 'CmdOrCtrl+A',
-//           role: 'selectall'
-//         }
-//       ]
-//     },
-//     {
-//       label: 'View',
-//       submenu: [
-//         {
-//           label: 'Reload',
-//           accelerator: 'CmdOrCtrl+R',
-//           click: function (item, focusedWindow) {
-//             if (focusedWindow)
-//               focusedWindow.reload();
-//           }
-//         },
-//         {
-//           label: 'Toggle Full Screen',
-//           accelerator: (function () {
-//             if (process.platform == 'darwin')
-//               return 'Ctrl+Command+F';
-//             else
-//               return 'F11';
-//           })(),
-//           click: function (item, focusedWindow) {
-//             if (focusedWindow)
-//               focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
-//           }
-//         },
-//         {
-//           label: 'Toggle Developer Tools',
-//           accelerator: (function () {
-//             if (process.platform == 'darwin')
-//               return 'Alt+Command+I';
-//             else
-//               return 'Ctrl+Shift+I';
-//           })(),
-//           click: function (item, focusedWindow) {
-//             if (focusedWindow)
-//               focusedWindow.toggleDevTools();
-//           }
-//         }
-//       ]
-//     },
-//     {
-//       label: 'Window',
-//       role: 'window',
-//       submenu: [
-//         {
-//           label: 'Minimize',
-//           accelerator: 'CmdOrCtrl+M',
-//           role: 'minimize'
-//         },
-//         {
-//           label: 'Close',
-//           accelerator: 'CmdOrCtrl+W',
-//           role: 'close'
-//         }
-//       ]
-//     },
-//     {
-//       label: 'Help',
-//       role: 'help',
-//       submenu: [
-//         {
-//           label: 'Learn More',
-//           click: function () {
-//             require('electron').shell.openExternal('http://electron.atom.io')
-//           }
-//         }
-//       ]
-//     }
-//   ];
-//
-//   if (process.platform === 'darwin') {
-//     var name = app.getName();
-//     template.unshift({
-//       label: name,
-//       submenu: [
-//         {
-//           label: 'About ' + name,
-//           role: 'about'
-//         },
-//         {
-//           type: 'separator'
-//         },
-//         {
-//           label: 'Services',
-//           role: 'services',
-//           submenu: []
-//         },
-//         {
-//           type: 'separator'
-//         },
-//         {
-//           label: 'Hide ' + name,
-//           accelerator: 'Command+H',
-//           role: 'hide'
-//         },
-//         {
-//           label: 'Hide Others',
-//           accelerator: 'Command+Alt+H',
-//           role: 'hideothers'
-//         },
-//         {
-//           label: 'Show All',
-//           role: 'unhide'
-//         },
-//         {
-//           type: 'separator'
-//         },
-//         {
-//           label: 'Quit',
-//           accelerator: 'Command+Q',
-//           click: function () {
-//             app.quit()
-//           }
-//         }
-//       ]
-//     });
-//     // Window menu.
-//     template[3].submenu.push(
-//       {
-//         type: 'separator'
-//       },
-//       {
-//         label: 'Bring All to Front',
-//         role: 'front'
-//       }
-//     );
-//   }
-//
-//   return template
-// }
-
+// current helper to get os-Data into angular ...
 function getOsData() {
   return {
     arch: os.arch(),

@@ -1,0 +1,8 @@
+{
+  "changelog.sidebar.icon": "fa-server",
+  "changelog.sidebar.label": "Changelog",
+  "changelog.sidebar.title": "Changelog",
+
+  "changelog.common.singular.title": "Changelog",
+  "changelog.common.plural.title": "Changelogs"
+}

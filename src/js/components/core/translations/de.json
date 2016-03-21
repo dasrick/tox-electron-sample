@@ -8,5 +8,8 @@
   "core.appmenu.app.about.label": "Über",
   "core.appmenu.app.update.label": "Auf Aktualisierung prüfen...",
 
-  "core.msg.autoupdater.downloaded": "Eine Aktualisierung der Applikation wurde heruntergeladen und kann nun installiert werden."
+  "core.structure.sidebar.system.label": "System",
+
+  "core.msg.autoupdater.downloaded": "Eine Aktualisierung der Applikation wurde heruntergeladen und kann nun installiert werden.",
+  "core.msg.autoupdater.update-available": "Eine Aktualisierung der Applikation ist verfügbar und wird heruntergeladen."
 }

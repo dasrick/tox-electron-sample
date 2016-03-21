@@ -3,7 +3,7 @@
 /**
  * @ngInject
  */
-module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Menu, $translate) {
+module.exports = function ($log, $timeout, $translate, AlertService, app, autoUpdater, ipcRenderer, Menu) {
   var vm = this;
   // methods
   vm.updateNow = updateNow;
@@ -16,6 +16,43 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Me
     messageCount: 0
   };
 
+  // basic content stuff ===============================================================================================
+
+  if (!angular.isDefined(vm.os)) {
+    $log.info('core-controller - trigger get-os-data');
+    ipcRenderer.send('get-os-data');
+  }
+
+  ipcRenderer.on('send-os-data', function (sender, os) {
+    $log.info('core-controller - catch os-data');
+    vm.os = os;
+
+    // build the app menu
+    // BUT vm.os is nessessary because of platform check
+    var appMenu = Menu.buildFromTemplate(getAppMenuTemplate());
+    Menu.setApplicationMenu(appMenu);
+  });
+
+  // node-env stuff because of auto updater ----------------------------------------------------------------------------
+
+  ipcRenderer.send('get-node-env');
+  ipcRenderer.on('send-node-env', function (sender, data) {
+    $log.info('core-controller - catch node-env: ', data);
+    if (data !== 'development') {
+      $log.warn('core-controller - trigger get-release-url');
+      ipcRenderer.send('get-release-url');
+    }
+  });
+
+  // autoUpdater stuff =================================================================================================
+
+  ipcRenderer.on('send-release-url', function (sender, releaseUrl) {
+    $log.info('core-controller - releaseUrl: ', releaseUrl);
+    $log.info('trigger auto updater');
+    autoUpdater.setFeedURL(releaseUrl);
+    autoUpdater.checkForUpdates();
+  });
+
   autoUpdater
     .on('error', function () {
       $log.error('core auto-updater on error');
@@ -26,11 +63,16 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Me
     })
     .on('update-available', function () {
       $log.info('core auto-updater on update-available');
-      setUpdateState(false, true, false);
+      $timeout(function () {
+        setUpdateState(false, true, false);
+      }, 1000);
+      AlertService.add('info', 'core.msg.autoupdater.update-available');
     })
     .on('update-not-available', function () {
       $log.info('core auto-updater on update-not-available');
-      setUpdateState(false, false, false);
+      $timeout(function () {
+        setUpdateState(false, false, false);
+      }, 1000);
     })
     .on('update-downloaded', function () {
       $log.info('core auto-updater on update-downloaded');
@@ -77,40 +119,23 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Me
 
 
   function updateNow() {
-    console.log('controller ipcRenderer.send update-now');
-    ipcRenderer.send('update-now');
+    console.log('core controller autoUpdater.quitAndInstall');
+    // ipcRenderer.send('update-now');
+    autoUpdater.quitAndInstall();
 
     vm.app.updateAvailable = false;
     vm.app.messageCount--;
   }
 
   function setUpdateState(check, download, available) {
-    vm.app.updateCheck = validBoolean(check);
-    vm.app.updateDownload = validBoolean(download);
-    vm.app.updateAvailable = validBoolean(available);
+    vm.app.updateCheck = getValidBoolean(check);
+    vm.app.updateDownload = getValidBoolean(download);
+    vm.app.updateAvailable = getValidBoolean(available);
   }
 
-  function validBoolean(value) {
-    if (angular.isUndefined(value) || (typeof value !== 'boolean')) {
-      value = false;
-    }
-    return value;
-  }
-
-
-  if (!angular.isDefined(vm.os)) {
-    ipcRenderer.send('get-os-data');
-  }
-
-  ipcRenderer.on('send-os-data', function (sender, os) {
-    vm.os = os;
-
-    // build the app menu
-    var appMenu = Menu.buildFromTemplate(getAppMenuTemplate());
-    Menu.setApplicationMenu(appMenu);
-  });
 
   // menu stuff ========================================================================================================
+
   function getAppMenuTemplate() {
     return [
       getAppMenuApplication(),
@@ -307,6 +332,20 @@ module.exports = function (app, AlertService, ipcRenderer, autoUpdater, $log, Me
         }
       ]
     };
+  }
+
+  // helper ============================================================================================================
+
+  /**
+   * Will always return a boolean ... fallback is FALSE
+   * @param value
+   * @returns boolean
+   */
+  function getValidBoolean(value) {
+    if (angular.isUndefined(value) || (typeof value !== 'boolean')) {
+      value = false;
+    }
+    return value;
   }
 
 };
