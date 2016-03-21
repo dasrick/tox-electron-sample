@@ -1,5 +1,5 @@
 <section class="section-body">
-    <h3>OS data by node.js</h3>
+    <h3 translate="status.common.singular.title"></h3>
     <p>the following information delivered by node.js os ... see https://nodejs.org/api/os.html</p>
     <table class="table table-condensed">
         <tr>
@@ -8,53 +8,53 @@
         </tr>
         <tr>
             <td>CPU architecture</td>
-            <td>{{statusVm.os.arch}}</td>
+            <td>{{coreVm.os.arch}}</td>
         </tr>
         <tr>
             <td>uptime</td>
-            <td>{{statusVm.os.uptime}}</td>
+            <td>{{coreVm.os.uptime}}</td>
         </tr>
         <tr>
             <td>freemem</td>
-            <td>{{statusVm.os.freemem}}</td>
+            <td>{{coreVm.os.freemem}}</td>
         </tr>
         <tr>
             <td>totalmem</td>
-            <td>{{statusVm.os.totalmem}}</td>
+            <td>{{coreVm.os.totalmem}}</td>
         </tr>
         <tr>
             <td>homedir</td>
-            <td>{{statusVm.os.homedir}}</td>
+            <td>{{coreVm.os.homedir}}</td>
         </tr>
         <tr>
             <td>tmpdir</td>
-            <td>{{statusVm.os.tmpdir}}</td>
+            <td>{{coreVm.os.tmpdir}}</td>
         </tr>
         <tr>
             <td>hostname</td>
-            <td>{{statusVm.os.hostname}}</td>
+            <td>{{coreVm.os.hostname}}</td>
         </tr>
         <tr>
             <td>platform</td>
-            <td>{{statusVm.os.platform}}</td>
+            <td>{{coreVm.os.platform}}</td>
         </tr>
         <tr>
             <td>release</td>
-            <td>{{statusVm.os.release}}</td>
+            <td>{{coreVm.os.release}}</td>
         </tr>
         <tr>
             <td>type</td>
-            <td>{{statusVm.os.type}}</td>
+            <td>{{coreVm.os.type}}</td>
         </tr>
         <tr>
             <td>endianness</td>
-            <td>{{statusVm.os.endianness}}</td>
+            <td>{{coreVm.os.endianness}}</td>
         </tr>
-        <tr ng-repeat="load in statusVm.os.loadavg">
+        <tr ng-repeat="load in coreVm.os.loadavg">
             <td>Load {{$index + 1}}</td>
             <td>{{load}}</td>
         </tr>
-        <tr ng-repeat="cpu in statusVm.os.cpus">
+        <tr ng-repeat="cpu in coreVm.os.cpus">
             <td>CPU {{$index + 1}}</td>
             <td>
                 Model: {{cpu.model}}<br>
@@ -66,7 +66,7 @@
                 Times sys: {{cpu.times.sys}}
             </td>
         </tr>
-        <tr ng-repeat="(key, nwi)  in statusVm.os.networkInterfaces">
+        <tr ng-repeat="(key, nwi)  in coreVm.os.networkInterfaces">
             <td>Network interface - {{key}}</td>
             <td>
                 <div ng-repeat="nwisetup  in nwi">

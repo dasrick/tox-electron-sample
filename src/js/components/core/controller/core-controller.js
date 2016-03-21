@@ -18,14 +18,14 @@ module.exports = function ($log, $timeout, $translate, AlertService, app, autoUp
 
   // basic content stuff ===============================================================================================
 
-  if (!angular.isDefined(vm.os)) {
-    $log.info('core-controller - trigger get-os-data');
+  if (angular.isUndefined(vm.os)) {
+    // $log.info('core-controller - trigger get-os-data');
     ipcRenderer.send('get-os-data');
   }
 
-  ipcRenderer.on('send-os-data', function (sender, os) {
-    $log.info('core-controller - catch os-data');
-    vm.os = os;
+  ipcRenderer.on('send-os-data', function (sender, data) {
+    // $log.info('core-controller - catch os-data: ', data);
+    vm.os = data;
 
     // build the app menu
     // BUT vm.os is nessessary because of platform check
@@ -54,8 +54,12 @@ module.exports = function ($log, $timeout, $translate, AlertService, app, autoUp
   });
 
   autoUpdater
-    .on('error', function () {
-      $log.error('core auto-updater on error');
+    .on('error', function (sender, error) {
+      $log.error('core auto-updater on error: ', error);
+      AlertService.add('danger', error);
+      $timeout(function () {
+        setUpdateState(false, false, false);
+      }, 1000);
     })
     .on('checking-for-update', function () {
       $log.info('core auto-updater on checking-for-update');
