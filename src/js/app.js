@@ -12,6 +12,7 @@ require('angular-translate-loader-partial');
 require('angular-ui-bootstrap');
 require('angular-ui-router');
 require('mi-angular-alert-service');
+require('mi-angular-resource-builder');
 
 var requires = [
   'angular-electron',
@@ -22,7 +23,9 @@ var requires = [
   'ui.bootstrap',
   'ui.router',
   'mi.AlertService',
-  require('./components').name
+  'mi.ResourceBuilder',
+  require('./components').name,
+  require('./shared').name
 ];
 
 angular.module(appName, requires)

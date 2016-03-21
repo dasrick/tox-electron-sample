@@ -10,6 +10,12 @@ module.exports = {
         templateUrl: './views/changelog/content.html',
         controller: 'ChangelogController as changelogVm'
       }
+    },
+    resolve: {
+      ReleaseNotesResource: 'ReleaseNotesResource',
+      releaseNotes: function (ReleaseNotesResource) {
+        return ReleaseNotesResource.query().$promise;
+      }
     }
   }
 };

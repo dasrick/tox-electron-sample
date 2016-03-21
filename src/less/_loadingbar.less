@@ -1,9 +1,13 @@
-@header-bottom-border-color: #007007;
-@progress-selected-bg: #BEE4BE;
+@import (inline) '../../node_modules/angular-loading-bar/build/loading-bar.min.css';
+
+
+@progress-selected-bg: #cC0033;
+@header-bottom-border-color: darken(@progress-selected-bg, 50%);
 
 #loading-bar {
   .bar, .peg {
-    height: 3px;
+    top: @header-height;
+    height: 2px;
   }
   .bar {
     background: @progress-selected-bg;
