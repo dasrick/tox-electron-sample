@@ -23,7 +23,7 @@ Electronized sample application based on AngularJS (frontend) and some more ...
 * evtl. auch noch die Linux-Variante ...
 
 [github-image-release]: https://img.shields.io/github/release/dasrick/tox-electron-sample.svg?style=flat-square
-[github-image-downloads-all]: https://img.shields.io/github/downloads/dasrick/tox-electron-sample.svg?style=flat-square
+[github-image-downloads-all]: https://img.shields.io/github/downloads/dasrick/tox-electron-sample/total.svg?style=flat-square
 [github-image-downloads-latest]: https://img.shields.io/github/downloads/latest/dasrick/tox-electron-sample.svg?style=flat-square
 [github-url]: https://github.com/dasrick/tox-electron-sample
 
